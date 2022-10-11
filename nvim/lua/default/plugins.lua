@@ -1,9 +1,12 @@
-local fn = vim.fn
-
--- Bootstrap packer
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
 
 -- Verify that packer exists
@@ -13,6 +16,7 @@ if not status_ok then
   return
 end
 
+-- auto sync plugins on save
 local packer_group = vim.api.nvim_create_augroup("PackerConfig", {
     clear = true,
 })
@@ -23,6 +27,8 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     command = "source <afile> | PackerSync",
     desc    = "Update/Install plugins on save"
 })
+
+local packer_bootstrap = ensure_packer()
 
 -- Configure packer
 packer.init {

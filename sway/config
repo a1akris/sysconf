@@ -23,14 +23,27 @@ set $light_up XF86MonBrightnessUp
 set $light_down XF86MonBrightnessDown
 
 # colors
-set $main_background #0A0E14
+set $black #000000
+set $old_main_background #0A0E14
+set $main_background #0A0A0A
 set $main_foreground #feff77
 # Your preferred terminal emulator
 set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu BEMENU_BACKEND=wayland bemenu-run -i --tb='$main_background' --tf='$main_foreground' --fb='$main_background' --ff='$main_foreground' --nb='$main_background' --nf='$main_foreground' --hb='$main_foreground' --hf='#000000' -p '' | xargs swaymsg exec --
+set $menu BEMENU_BACKEND=wayland bemenu-run -f -n -H 22 -W 0.5 -B 1 -l 6 -p '>' \
+    --hp 3 --fn 'FiraCode 14' --bdr '$black' \
+    --tb '$main_background' --tf '$main_foreground' \
+    --fb '$main_background' --ff '$main_foreground' \
+    --nb '$main_background' --nf '$main_foreground' \
+    --hb '$main_foreground' --hf '$black' \
+    --fbb '$main_background' --fbf '$main_foreground' \
+    --sb '$main_background' --sf '$main_foreground' \
+    --ab '$main_background' --af '$main_foreground' \
+    --scb '$main_background' --scf '$main_foreground' \
+    --cb '$main_background' --cf '$main_foreground' \
+    | xargs swaymsg exec --
 
 ### Output configuration
 #
@@ -48,8 +61,8 @@ output * bg ~/Wallpapers/hepard.jpg fill
 # Example configuration:
 #
 exec swayidle -w \
-         timeout 120 'swaylock -f -i ~/Wallpapers/black-gold-abstract.jpg' \
-         timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+         timeout 600 'swaylock -f -i ~/Wallpapers/black-gold-abstract.jpg' \
+         timeout 660 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -i ~/Wallpapers/black-gold-abstract.jpg'
 
 # This will lock your screen after 300 seconds of inactivity, then turn off

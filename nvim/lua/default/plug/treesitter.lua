@@ -5,8 +5,9 @@ if not status_ok then
 end
 
 configs.setup {
-    ensure_installed = { "lua", "rust", "javascript" },
+    ensure_installed = { "lua", "rust", "bash", "python" },
     sync_install = false,
+    auto_install = true,
     ignore_install = { "" },
     highlight = {
         enable = true,

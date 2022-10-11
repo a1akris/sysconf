@@ -5,16 +5,16 @@ if not status_ok then
     return
 end
 
-local opts = { noremap = true, silent = true }
-local term_opts = { silent = true }
-local keymap = vim.api.nvim_set_keymap
+local telescope_builtin = require('telescope.builtin')
+local keymap = vim.keymap.set
 
+local opts = { noremap = true, silent = true }
 -- Mappings to invoke telescope
-keymap('n', "<C-p>", ":Telescope find_files<cr>", opts)
-keymap('n', "<leader>h", ":Telescope oldfiles<cr>", opts)
-keymap('n', "<leader>b", ":Telescope buffers<cr>", opts)
-keymap('n', "<leader>f", ":Telescope live_grep<cr>", opts)
-keymap('n', "<leader>l", ":Telescope quickfix<cr>", opts)
+keymap('n', '<C-p>', telescope_builtin.find_files, opts)
+keymap('n', '<leader>h', telescope_builtin.oldfiles, opts)
+keymap('n', '<leader>b', telescope_builtin.buffers, opts)
+keymap('n', '<leader>f', telescope_builtin.live_grep, opts)
+keymap('n', '<leader>l', telescope_builtin.quickfix, opts)
 
 -- Telescope window mappings
 local custom_mappings = {

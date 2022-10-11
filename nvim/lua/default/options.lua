@@ -38,6 +38,10 @@ local options = {
   writebackup    = false,
 }
 
+-- Disable netrw
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+
 for k, v in pairs(options) do
   vim.opt[k] = v
 end

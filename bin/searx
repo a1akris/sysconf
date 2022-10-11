@@ -1,0 +1,7 @@
+#!/bin/bash
+
+port=8192
+serv_dir="${HOME}/.local/share/searx"
+
+docker pull searx/searx
+docker run --restart=always -d --name searx -v $serv_dir:/etc/searx -p $port:8080 -e BASE_URL=http://localhost:$port/ searx/searx

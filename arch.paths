@@ -1,0 +1,8 @@
+[source]                    [destination]
+./alacritty/alacritty.yml   ~/.config/alacritty/alacritty.yml
+./bin/                      ~/bin/
+./nvim/                     ~/.config/nvim/
+./sway/config               ~/.config/sway/config
+./tmux/tmux.conf            ~/.tmux.conf
+./Wallpapers/               ~/Wallpapers/
+./waybar/                   ~/.config/waybar/

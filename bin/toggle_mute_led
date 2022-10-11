@@ -1,0 +1,11 @@
+#/bin/bash
+
+volume_led_path="sysfs/leds/hda::mute"
+current_val=`light -Gs $volume_led_path | cut -b1`
+
+if [ $current_val -eq 0 ]; then
+  light -S 100 -s $volume_led_path
+else
+  light -S 0 -s $volume_led_path
+fi
+

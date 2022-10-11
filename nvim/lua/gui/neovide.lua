@@ -7,8 +7,9 @@ vim.g.neovide_input_use_logo = false
 vim.g.neovide_cursor_vfx_mode = "pixiedust"
 vim.g.neovide_cursor_vfx_particle_density = 15.0
 vim.g.neovide_cursor_vfx_particle_lifetime = 3.0
+vim.g.neovide_scroll_animation_length = 0.5
 
-vim.g.gui_font_default_size = 8
+vim.g.gui_font_default_size = 14
 vim.g.gui_font_size = vim.g.gui_font_default_size
 vim.g.gui_font_face = "Fira Code Retina"
 

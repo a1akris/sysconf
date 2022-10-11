@@ -14,22 +14,22 @@ vim.g.maplocalleader = " "
 --   term - 't'
 --   command - 't'
 
--- Split switching
+-- Split windows simpolified switching and moving
 keymap("n", "<C-l>", "<C-w>l", opts)
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 
 -- Tab switching
-keymap("n", "<Tab>", "gt", opts)
-keymap("n", "<S-Tab>", "gT", opts)
+-- keymap("n", "<Tab>", "gt", opts)
+-- keymap("n", "<S-Tab>", "gT", opts)
 
 -- Buf switching
 keymap("n", "<leader>[", ":bprev!<cr>", opts)
 keymap("n", "<leader>]", ":bnext!<cr>", opts)
 keymap("n", "<leader><leader>", "<C-^>", opts)
 keymap("n", "<leader>w", ":bn<bar>:sp<bar>:bp<bar>:bd<cr>", opts)
-keymap("n", "<leader>q", ":bd!<cr>", opts)
+keymap("n", "<leader>q", ":bn<bar>:sp<bar>:bp<bar>:bd!<cr>", opts)
 
 -- Scrolling
 keymap("n", "J", "<C-d>", opts)
@@ -64,7 +64,7 @@ local fix_group = vim.api.nvim_create_augroup("small_fixes", {
     clear = true,
 })
 
-vim.api.nvim_create_autocmd({"CursorMoved", "CursorMovedI"}, {
+vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
     group = fix_group,
     pattern = "*",
     command = "set nohlsearch",

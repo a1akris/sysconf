@@ -1,5 +1,5 @@
-local o   = vim.o
-local fn  = vim.fn
+local o  = vim.o
+local fn = vim.fn
 
 local M = {}
 

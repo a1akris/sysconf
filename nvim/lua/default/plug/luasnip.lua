@@ -6,8 +6,6 @@ end
 
 require("luasnip/loaders/from_vscode").lazy_load()
 
-local types = require "luasnip.util.types"
-
 local s = ls.s
 local i = ls.insert_node
 local t = ls.text_node
@@ -24,44 +22,44 @@ local type_filter = function(index)
     return f(function(arg)
         local tmp = string.gsub(arg[1][1], ":(.*),", ",")
         return string.gsub(tmp, ":(.*)$", "")
-    end, {index})
+    end, { index })
 end
 
 ls.add_snippets("rust", {
-        s("fn", fmt([[
+    s("fn", fmt([[
           fn {}({}) {}{{
               {}
           }}
         ]], {
-            i(1, "name"), i(2),
-            c(3, { t "", fmt("-> {} ", { i(1) }) }),
-            i(0, "todo!()")
-        })),
+        i(1, "name"), i(2),
+        c(3, { t "", fmt("-> {} ", { i(1) }) }),
+        i(0, "todo!()")
+    })),
 
-        s("afn", fmt([[
+    s("afn", fmt([[
           async fn {}({}) {}{{
               {}
           }}
         ]], {
-            i(1, "name"), i(2),
-            c(3, { t "", fmt("-> {} ", { i(1) }) }),
-            i(0, "todo!()")
-        })),
+        i(1, "name"), i(2),
+        c(3, { t "", fmt("-> {} ", { i(1) }) }),
+        i(0, "todo!()")
+    })),
 
-        s("new", fmt([[
+    s("new", fmt([[
           fn new({}) -> Self {{
               Self {{ {} }}
           }}
         ]], {
-            i(1), type_filter(1)
-        })),
+        i(1), type_filter(1)
+    })),
 
-        s("modtest", fmt([[
+    s("modtest", fmt([[
           #[cfg(test)]
           mod tests {{
           {}
               {}
           }}
         ]], { c(1, { t "    use super::*;", t "", }), i(0) })),
-    }, { key = "rust" }
+}, { key = "rust" }
 )

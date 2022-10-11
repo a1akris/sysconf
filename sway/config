@@ -33,7 +33,7 @@ set $term alacritty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 set $menu BEMENU_BACKEND=wayland bemenu-run -f -n -H 22 -W 0.5 -B 1 -l 6 -p '>' \
-    --hp 3 --fn 'FiraCode 14' --bdr '$black' \
+    --hp 3 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
     --nb '$main_background' --nf '$main_foreground' \

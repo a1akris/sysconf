@@ -9,6 +9,8 @@ local ensure_packer = function()
     return false
 end
 
+local packer_bootstrap = ensure_packer()
+
 -- Verify that packer exists
 local status_ok, packer = pcall(require, "packer")
 
@@ -28,7 +30,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     desc    = "Update/Install plugins on save"
 })
 
-local packer_bootstrap = ensure_packer()
 
 -- Configure packer
 packer.init {

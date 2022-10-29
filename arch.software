@@ -8,4 +8,4 @@ pacman -S noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra \
 	neovim tree-sitter fzf ripgrep git make cmake gcc clang \
 	pulseaudio pulseaudio-alsa pamixer pavucontrol \
 	light slurp grim \
-	iw dhcpcd neovim
+	iwd dhcpcd neovim

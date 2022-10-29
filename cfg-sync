@@ -40,10 +40,15 @@ def rm(path):
 
 
 def cp(source, dest):
+    dirname = os.path.dirname(dest)
+
+    if not os.path.exists(dirname):
+        os.makedirs(dirname, mode=0o755)
+
     if os.path.isfile(source):
         shutil.copy2(source, dest)
     else:
-        shutil.copytree(source, dest)
+        shutil.copytree(source, dest, dirs_exist_ok=True)
 
 
 def collect(paths_file):

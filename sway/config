@@ -109,6 +109,9 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     # Reload the configuration file
     bindsym $mod+Shift+c reload
 
+    # Lock session
+    bindsym $mod+period exec swaylock -f -i ~/Wallpapers/black-gold-abstract.jpg
+
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 #

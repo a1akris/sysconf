@@ -1,6 +1,12 @@
 * {
     border: none;
     border-radius: 0;
+
+    /* 0.9.14 workaround */
+    background: inherit;
+    box-shadow: inherit;
+    text-shadow: inherit;
+
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: Roboto, Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -46,6 +52,7 @@ window#waybar.chromium {
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
+    color: white;
     background: rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 -2px #feff77;
 }
@@ -185,6 +192,7 @@ label:focus {
 }
 
 #language {
+    color: #feff77;
     padding: 0 5px;
     margin: 0 5px;
     min-width: 16px;

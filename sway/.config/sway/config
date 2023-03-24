@@ -171,7 +171,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
+    bindsym $mod+n splith
     bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
@@ -237,7 +237,7 @@ bar {
 
 # Take a screenshot
 bindsym $print_screen       exec grim -g "$(slurp -b '#111111aa' -c '#feff77aa')" - | wl-copy
-bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#feff77aa')" /tmp/screen && gimp /tmp/screen
+bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#feff77aa')" /tmp/screen && gimp /tmp/screen && rm /tmp/screen
 
 #
 # Multimedia:

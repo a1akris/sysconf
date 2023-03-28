@@ -72,7 +72,7 @@ exec swayidle -w \
 
 ### Input configuration
 input * {
-    xkb_layout "us,ru"
+    xkb_layout "us,ru,ua"
     xkb_options "grp:win_space_toggle"
 }
 
@@ -324,9 +324,9 @@ title_align center
 # Colors #93cee9
 #
 # class                     border  backgr. text  indicator child_border
-    client.focused          #012223 #222222 #dddddd $main_foreground $main_foreground
-    client.focused_inactive #123321 $main_background #789789 #484e50 #5f676a
-    client.unfocused        #123321 #222222 #888888 #292d2e #222222
+    client.focused          $main_foreground $main_background $main_foreground $main_foreground $main_foreground
+    client.focused_inactive #123321 $main_background #777777 #484e50 #5f676a
+    client.unfocused        #123321 $main_background #888888 #292d2e #222222
     client.urgent           #2f343a #900000 #ffffff #900000 #900000
 
 include /etc/sway/config.d/*

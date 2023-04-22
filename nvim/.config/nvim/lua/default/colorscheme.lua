@@ -1,7 +1,13 @@
-local colorscheme = "ayu"
+local status_ok, ayu = pcall(require, "ayu")
 
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
 if not status_ok then
-    vim.notify("colorscheme " .. colorscheme .. " not found!")
+    vim.notify("ayu not found")
     return
 end
+
+ayu.setup({
+    mirage = false,
+    overrides = {}
+})
+
+vim.cmd.colorscheme("ayu")

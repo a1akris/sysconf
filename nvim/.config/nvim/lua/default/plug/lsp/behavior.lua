@@ -71,9 +71,9 @@ end
 function M.setup()
     local signs = {
         { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
+        { name = "DiagnosticSignWarn",  text = "" },
+        { name = "DiagnosticSignHint",  text = "" },
+        { name = "DiagnosticSignInfo",  text = "" },
     }
 
     for _, sign in ipairs(signs) do
@@ -89,7 +89,7 @@ function M.setup()
         underline = true,
         severity_sort = true,
         float = {
-            focusable = false,
+            focusable = true,
             border = "rounded",
             source = "always",
             header = "",

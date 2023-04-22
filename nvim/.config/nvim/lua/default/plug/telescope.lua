@@ -15,6 +15,7 @@ keymap('n', '<leader>h', telescope_builtin.oldfiles, opts)
 keymap('n', '<leader>b', telescope_builtin.buffers, opts)
 keymap('n', '<leader>f', telescope_builtin.live_grep, opts)
 keymap('n', '<leader>l', telescope_builtin.quickfix, opts)
+keymap('n', '<leader>d', telescope_builtin.diagnostics, opts)
 
 -- Telescope window mappings
 local custom_mappings = {
@@ -34,12 +35,11 @@ telescope.setup {
 
     extensions = {
         fzf = {
-            fuzzy = true, -- false will only do exact matching
+            fuzzy = true,                   -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
         },
-
         ["ui-select"] = {
             codeactions = true,
         }

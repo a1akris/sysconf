@@ -20,7 +20,6 @@ nvim_tree.setup {
     reload_on_bufenter                 = true,
     respect_buf_cwd                    = false,
     on_attach                          = "disable",
-    remove_keymaps                     = false,
     select_prompts                     = true,
     view                               = {
         adaptive_size = true,
@@ -32,10 +31,6 @@ nvim_tree.setup {
         number = false,
         relativenumber = false,
         signcolumn = "yes",
-        mappings = {
-            custom_only = false,
-            list = {},
-        },
         float = {
             enable = false,
             open_win_config = {

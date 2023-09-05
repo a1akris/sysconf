@@ -20,10 +20,6 @@ keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 
--- Tab switching
--- keymap("n", "<Tab>", "gt", opts)
--- keymap("n", "<S-Tab>", "gT", opts)
-
 -- Buf switching
 keymap("n", "<leader>[", ":bprev!<cr>", opts)
 keymap("n", "<leader>]", ":bnext!<cr>", opts)
@@ -45,6 +41,7 @@ keymap("n", "<leader>j", "J", opts)
 -- Terminal keys
 keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 keymap("t", ";j", "<C-\\><C-n>", opts)
+keymap("c", "te ", "split | te ", opts)
 
 -- File ops
 keymap("n", "<leader>s", ":w<cr>", opts)

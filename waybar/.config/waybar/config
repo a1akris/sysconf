@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "pulseaudio", "cpu", "temperature", "keyboard-state", "sway/language", "battery", "tray"],
+    "modules-right": ["network", "pulseaudio", "cpu", "memory", "temperature", "keyboard-state", "sway/language", "battery", "tray"],
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
@@ -14,22 +14,23 @@
         "format": "{icon}",
         "format-icons": {
             "1": "",
-            "2": "",
+            "2": "󰛐",
             "3": "🗝",
             "4": "🗪",
             "5": "5",
             "6": "6",
             "7": "7",
             "8": "8",
-            "9": "9",
+            "9": "󰍺",
             "urgent": "",
             "focused": "",
-            "default": ""
+            "default": "",
+            "high-priority-named": ["1", "2", "3", "4", "9"]
         },
         "persistent_workspaces": {
             "1": [],
             "2": [],
-            "4": []
+            "4": [],
         }
     },
     "sway/mode": {
@@ -73,6 +74,7 @@
         "interval": 1
     },
     "cpu": {
+        "interval": 5,
         "format": "{usage}% ",
         "tooltip": true
     },
@@ -83,8 +85,7 @@
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
         "format-icons": ["", "", ""],
-        "tooltip": true,
-        "tooltip-format": "CPU Temperature: {temperatureC}°C"
+        "tooltip": false
     },
     "backlight": {
         // "device": "acpi_video1",
@@ -94,8 +95,7 @@
     "battery": {
         "bat": "BAT0",
         "states": {
-            "good": 95,
-            "warning": 30,
+            "warning": 25,
             "critical": 15
         },
         "format": "{capacity}% {icon}",
@@ -123,6 +123,12 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+        "on-click": "pavucontrol",
+        "tooltip": false
+    },
+    "memory": {
+        "interval": 5,
+        "format": "{}% ",
+        "tooltip-format": "RAM: {used:0.2f} GiB/{total:0.2f} GiB\nSWAP: {swapUsed:0.2f} GiB/{swapTotal:0.2f} GiB"
     }
 }

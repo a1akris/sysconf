@@ -2,14 +2,15 @@
 
 if [ "$EUID" -ne 0 ]; then
     echo "Run this script with sudo!"
+
     exit 1
 fi
 
 pacman -S noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra \
     ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-2048-em \
     ttf-fira-code ttf-liberation ttf-opensans \
-	sudo man man-pages stow openssh docker \
-	alacritty tmux polkit egl-wayland sway swaybg swayidle swaylock waybar bemenu-wayland wl-clipboard wayland xorg-xwayland xorg-xev lynx firefox \
+	sudo man man-pages stow openssh \
+	alacritty tmux polkit egl-wayland sway swaybg swayidle swaylock waybar bemenu-wayland wl-clipboard wayland xorg-xwayland xorg-xev lynx \
 	neovim tree-sitter fzf ripgrep git make cmake gcc clang \
 	pulseaudio pulseaudio-alsa pamixer pavucontrol \
 	light slurp grim \

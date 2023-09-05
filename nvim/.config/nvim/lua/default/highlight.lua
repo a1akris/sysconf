@@ -4,4 +4,4 @@ for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
     vim.api.nvim_set_hl(0, group, {})
 end
 
-vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffa759" })
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#399ee6" })

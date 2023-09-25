@@ -40,7 +40,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu BEMENU_BACKEND=wayland bemenu-run -f -n -H 22 -W 0.5 -B 1 -l 6 -p '>' \
+set $menu BEMENU_BACKEND=wayland bemenu-run --no-exec -f -n -H 22 -W 0.5 -B 1 -l 6 -p '>' \
     --hp 3 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -171,8 +171,6 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+x splith
-    bindsym $mod+v splitv
     bindsym $mod+t splitt
 
     # Switch the current container between different layout styles
@@ -330,3 +328,6 @@ title_align center
     client.urgent           #2f343a #900000 #ffffff #900000 #900000
 
 include /etc/sway/config.d/*
+
+workspace 1
+exec $term

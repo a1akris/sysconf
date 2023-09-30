@@ -1,0 +1,3 @@
+#!/bin/bash
+
+wl-paste | qrencode -s 8 -d 144 -o /tmp/qr && feh -Z /tmp/qr

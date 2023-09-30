@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+command_to_exec=()
+sway_actions=()
+split=false
+
+for arg in "$@"; do
+    if [ "$arg" == "--" ]; then
+        split=true
+    elif [ "$split" == false ]; then
+        command_to_exec+=("$arg")
+    else
+        sway_actions+=("$arg")
+    fi
+done
+
+swaymsg -t subscribe -p '[ "window" ]' > /tmp/sway_hook &
+subscription=$!
+
+${command_to_exec[@]} &
+pid=$!
+
+if ps -p $pid > /dev/null; then
+    wait $subscription
+
+    con_id=`grep -a '"id":' /tmp/sway_hook | awk '{ print $2 }' | tr -d ',' | head -n1`
+
+    sway_exec=()
+
+    for arg in ${sway_actions[@]}; do
+        if [ "$arg" == "and" ]; then
+            if [ ${#sway_exec[@]} -ne 0 ]; then
+                swaymsg "[con_id=$con_id]" "${sway_exec[@]}"
+                sleep 0.05
+            fi
+
+            sway_exec=()
+        else
+            sway_exec+=("$arg")
+        fi
+    done
+
+    swaymsg "[con_id=$con_id]" "${sway_exec[@]}"
+else
+    kill $subscription
+    exit 1
+fi

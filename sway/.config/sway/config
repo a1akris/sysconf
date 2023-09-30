@@ -187,8 +187,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
 
-    # Move focus to the parent container
-    bindsym $mod+a focus parent
+    bindsym $mod+n focus child
 #
 # Scratchpad:
 #
@@ -285,7 +284,21 @@ mode "move" {
     bindsym Escape mode "default"
     bindsym $mod+r mode "resize"
 }
+
 bindsym $mod+m mode "move"
+
+mode "hotstuff" {
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+
+    bindsym c exec sway_hook $term -e 'python3 -q' -- floating enable and resize shrink up 525px and move down 175px
+
+    bindsym q exec sway_hook cb_to_qr -- floating enable and move left 750px and move up 325px
+
+    bindsym z exec sway_hook zbarcam -- floating enable
+
+}
+bindsym $mod+x mode "hotstuff"
 
 #
 # Status Bar:

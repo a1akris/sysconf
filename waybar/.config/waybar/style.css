@@ -181,7 +181,7 @@ label:focus {
 }
 
 #tray > .active {
-    box-shadow: 0px -2px #feff77;
+    box-shadow: inset 0px -2px #feff77;
 }
 
 #tray > .needs-attention {

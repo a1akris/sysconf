@@ -41,7 +41,6 @@ keymap("n", "<leader>j", "J", opts)
 -- Terminal keys
 keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 keymap("t", ";j", "<C-\\><C-n>", opts)
-keymap("c", "te ", "split | te ", opts)
 
 -- File ops
 keymap("n", "<leader>s", ":w<cr>", opts)

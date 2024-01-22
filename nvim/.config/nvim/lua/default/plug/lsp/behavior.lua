@@ -62,7 +62,6 @@ local function lsp_keymaps(client, bufnr)
 
     keymap("n", "[d", vim.diagnostic.goto_prev, opts)
     keymap("n", "]d", vim.diagnostic.goto_next, opts)
-    keymap("n", "gf", vim.diagnostic.setloclist, opts)
 
     -- Enable completion triggered by omnifunc
     vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
@@ -71,9 +70,9 @@ end
 function M.setup()
     local signs = {
         { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn",  text = "" },
-        { name = "DiagnosticSignHint",  text = "" },
-        { name = "DiagnosticSignInfo",  text = "" },
+        { name = "DiagnosticSignWarn", text = "" },
+        { name = "DiagnosticSignHint", text = "" },
+        { name = "DiagnosticSignInfo", text = "" },
     }
 
     for _, sign in ipairs(signs) do

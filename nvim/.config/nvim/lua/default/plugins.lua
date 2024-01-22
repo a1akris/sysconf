@@ -41,23 +41,31 @@ lazy.setup({
     "neovim/nvim-lspconfig",
     "williamboman/mason-lspconfig.nvim",
     "williamboman/mason.nvim",
-    'simrat39/rust-tools.nvim',
+    {
+        "folke/neodev.nvim",
+        opts = {}
+    },
+    {
+        "mrcjkb/rustaceanvim",
+        version = '^3', -- Recommended
+        ft = { 'rust' },
+    },
+    "rust-lang/rust.vim",
     -- Auto completion
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    {
-        "saadparwaiz1/cmp_luasnip",
-        dependencies = "L3MON4D3/LuaSnip",
-    },
+    -- {
+    --     "saadparwaiz1/cmp_luasnip",
+    --     dependencies = "L3MON4D3/LuaSnip",
+    -- },
     -- Code highlighting
     -- {
     --     "nvim-treesitter/nvim-treesitter",
     --     build = ':TSUpdate',
     -- },
-    "rust-lang/rust.vim",
     -- Search and navigation
     {
         "nvim-telescope/telescope.nvim",
@@ -81,6 +89,28 @@ lazy.setup({
     {
         "nvim-lualine/lualine.nvim",
         dependencies = { "kyazdani42/nvim-web-devicons" }
+    },
+    -- Debugging
+    "mfussenegger/nvim-dap",
+    {
+        "mfussenegger/nvim-dap-ui",
+        dependencies = {
+            "mfussenegger/nvim-dap"
+        },
+        commit = "34160a7ce6072ef332f350ae1d4a6a501daf0159"
+    },
+    {
+        "nvim-telescope/telescope-dap.nvim",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+            "nvim-telescope/telescope.nvim",
+        }
+    },
+    {
+        "theHamsta/nvim-dap-virtual-text",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+        }
     },
     -- Git integration
     {

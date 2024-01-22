@@ -34,7 +34,8 @@ set $print_screen Print
 set $black #000000
 set $old_main_background #0A0E14
 set $main_background #0A0A0A
-set $main_foreground #feff77
+#set $main_foreground #feff77 #FFE6A6
+set $main_foreground #ffe6a6
 # Your preferred terminal emulator
 set $term alacritty
 # Your preferred application launcher
@@ -52,6 +53,20 @@ set $menu BEMENU_BACKEND=wayland bemenu-run --no-exec -f -n -H 22 -W 0.5 -B 1 -l
     --scb '$main_background' --scf '$main_foreground' \
     --cb '$main_background' --cf '$main_foreground' \
     | xargs swaymsg exec --
+
+set $vmenu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -f -n -b -W 1 -B 2 -p 'VM:' \
+    --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
+    --tb '$main_background' --tf '$main_foreground' \
+    --fb '$main_background' --ff '$main_foreground' \
+    --nb '$main_background' --nf '$main_foreground' \
+    --hb '$main_foreground' --hf '$black' \
+    --fbb '$main_background' --fbf '$main_foreground' \
+    --sb '$main_background' --sf '$main_foreground' \
+    --ab '$main_background' --af '$main_foreground' \
+    --scb '$main_background' --scf '$main_foreground' \
+    --cb '$main_background' --cf '$main_foreground' \
+    | xargs -I '{}' swaymsg exec -- lxc start '{}' --console=vga
+
 
 ### Output configuration
 #
@@ -98,6 +113,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
 
     # Start your launcher
     bindsym $mod+d exec $menu
+    bindsym $mod+v exec $vmenu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -309,9 +325,10 @@ bar {
 }
 
 # Take a screenshot
-bindsym $print_screen       exec grim -g "$(slurp -b '#111111aa' -c '#feff77aa')" - | wl-copy
-bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#feff77aa')" /tmp/screen && gimp /tmp/screen && rm /tmp/screen
-
+bindsym $print_screen       exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | wl-copy
+bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" /tmp/screen && gimp /tmp/screen && rm /tmp/screen
+# Pick a color
+bindsym Control+$print_screen exec grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- > /tmp/color && sway_hook $term -e nvim /tmp/color -- floating enable
 #
 # Multimedia:
 #

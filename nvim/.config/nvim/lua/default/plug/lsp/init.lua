@@ -22,7 +22,12 @@ mason.setup()
 mason_lspconfig.setup()
 lsp_behavior.setup()
 
-local rust_tools_ok, rt = pcall(require, "rust-tools")
+local rustacean_ok, _ = pcall(require, "rustaceanvim")
+local neodev_ok, neodev = pcall(require, "neodev")
+
+neodev.setup({
+
+})
 
 local ra_settings = {
     ["rust-analyzer"] = {
@@ -61,7 +66,7 @@ local ra_settings = {
     }
 }
 
-if not rust_tools_ok then
+if not rustacean_ok then
     vim.notify("Rust tools not found. Using raw rust-analyzer")
     lsp_config.rust_analyzer.setup {
         on_attach = lsp_behavior.on_attach_default,
@@ -69,21 +74,22 @@ if not rust_tools_ok then
         settings = ra_settings
     }
 else
-    rt.setup({
+    vim.g.rustaceanvim = {
         server = {
             on_attach = function(client, bufnr)
                 lsp_behavior.on_attach_default(client, bufnr)
 
-                -- Rust tools additional actions and features
-                rt.inlay_hints.enable()
-                local opts = { buffer = bufnr }
-                vim.keymap.set("n", "g<space>", rt.runnables.runnables, opts)
-                vim.keymap.set("n", "gm", rt.expand_macro.expand_macro, opts)
+                -- Rustacean's addons and overrides
+                local opts = { noremap = true, silent = true, buffer = bufnr }
+                local keymap = vim.keymap.set
+
+                keymap("n", "g<Tab>", function() vim.cmd.RustLsp("codeAction") end, opts)
+                keymap("n", "gE", function() vim.cmd.RustLsp("explainError") end, opts)
             end,
             capabilities = lsp_behavior.capabilities,
             settings = ra_settings
-        }
-    })
+        },
+    }
 end
 
 lsp_config.lua_ls.setup {
@@ -91,8 +97,8 @@ lsp_config.lua_ls.setup {
     capabilities = lsp_behavior.capabilities,
     settings = {
         Lua = {
-            diagnostics = {
-                globals = { "vim" }
+            completion = {
+                callSnippet = "Replace"
             }
         }
     }

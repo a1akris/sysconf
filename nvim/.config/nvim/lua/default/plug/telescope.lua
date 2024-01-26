@@ -16,7 +16,7 @@ keymap('n', '<leader>b', telescope_builtin.buffers, opts)
 keymap('n', '<leader>f', telescope_builtin.live_grep, opts)
 keymap('n', '<leader>l', telescope_builtin.quickfix, opts)
 keymap('n', '<leader>d', telescope_builtin.diagnostics, opts)
-keymap('n', '<leader>c', telescope_builtin.commands, opts)
+keymap('n', '<leader>c', telescope_builtin.resume, opts)
 
 -- Telescope window mappings
 local custom_mappings = {

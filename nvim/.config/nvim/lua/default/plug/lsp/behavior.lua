@@ -56,7 +56,6 @@ local function lsp_keymaps(client, bufnr)
 
     keymap("n", "g?", vim.lsp.buf.hover, opts)
     keymap("n", "ge", vim.diagnostic.open_float, opts)
-    keymap("n", "gh", vim.lsp.buf.signature_help, opts)
     keymap("n", "gr", vim.lsp.buf.rename, opts)
     keymap("n", "g<Tab>", vim.lsp.buf.code_action, opts)
 

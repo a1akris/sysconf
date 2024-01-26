@@ -16,4 +16,3 @@ require "default.plug.filetree"
 
 -- Extra modules
 require "gui.neovide"
-require "remote.rust"

@@ -8,12 +8,20 @@ end
 -- DAP Config
 
 
+local keymap = vim.keymap.set
+local opts = { noremap = true, silent = true }
+
 vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
 vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'ErrorMsg', linehl = '', numhl = '' })
-vim.keymap.set('n', '<Leader>?', function() dap.toggle_breakpoint() end, {
-    noremap = true,
-    silent = true
-})
+
+keymap('n', '<Leader>?', function() dap.toggle_breakpoint() end, opts)
+keymap('n', '<Down>', function() dap.step_into() end, opts)
+keymap('n', '<Up>', function() dap.step_out() end, opts)
+keymap('n', '<Right>', function() dap.step_over() end, opts)
+keymap('n', '<Left>', function() dap.step_back() end, opts)
+keymap('n', '<C-Right>', function() dap.continue() end, opts)
+keymap('n', '<C-Left>', function() dap.restart() end, opts)
+
 
 -- DAP UI Config
 

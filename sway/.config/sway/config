@@ -67,6 +67,19 @@ set $vmenu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -f -n -b -W 1 -B 2
     --cb '$main_background' --cf '$main_foreground' \
     | xargs -I '{}' swaymsg exec -- lxc start '{}' --console=vga
 
+set $mmenu BEMENU_BACKEND=wayland ls_music | bemenu -f -n -b -W 1 -B 2 -l 4 -p 'Play>' \
+    --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
+    --tb '$main_background' --tf '$main_foreground' \
+    --fb '$main_background' --ff '$main_foreground' \
+    --nb '$main_background' --nf '$main_foreground' \
+    --hb '$main_foreground' --hf '$black' \
+    --fbb '$main_background' --fbf '$main_foreground' \
+    --sb '$main_background' --sf '$main_foreground' \
+    --ab '$main_background' --af '$main_foreground' \
+    --scb '$main_background' --scf '$main_foreground' \
+    --cb '$main_background' --cf '$main_foreground' \
+    | xargs -I '{}' swaymsg exec -- qmmp "~/Music/'{}'"
+
 
 ### Output configuration
 #
@@ -114,6 +127,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     # Start your launcher
     bindsym $mod+d exec $menu
     bindsym $mod+v exec $vmenu
+    bindsym $mod+p exec $mmenu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -307,13 +321,13 @@ mode "hotstuff" {
     bindsym Escape mode "default"
     bindsym Return mode "default"
 
-    bindsym c exec sway_hook $term -e 'python3 -q' -- floating enable and resize shrink up 525px and move down 175px
+    bindsym c exec sway_hook $term -e 'ipython' -- floating enable and resize shrink up 525px and move down 175px and mode "default"
 
-    bindsym q exec sway_hook cb_to_qr -- floating enable and move left 750px and move up 325px
+    bindsym q exec sway_hook cb_to_qr -- floating enable and move left 750px and move up 325px and mode "default"
 
-    bindsym z exec sway_hook zbarcam -- floating enable
-
+    bindsym z exec sway_hook zbarcam -- floating enable and mode "default"
 }
+
 bindsym $mod+x mode "hotstuff"
 
 #

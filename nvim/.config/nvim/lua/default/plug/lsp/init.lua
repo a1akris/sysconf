@@ -25,9 +25,11 @@ lsp_behavior.setup()
 local rustacean_ok, _ = pcall(require, "rustaceanvim")
 local neodev_ok, neodev = pcall(require, "neodev")
 
-neodev.setup({
+if neodev_ok then
+    neodev.setup({
 
-})
+    })
+end
 
 local ra_settings = {
     ["rust-analyzer"] = {
@@ -85,10 +87,15 @@ else
 
                 keymap("n", "g<Tab>", function() vim.cmd.RustLsp("codeAction") end, opts)
                 keymap("n", "gE", function() vim.cmd.RustLsp("explainError") end, opts)
+                keymap("n", "g?", function() vim.cmd.RustLsp("hover") end, opts)
+                keymap("n", "gh", function() vim.cmd.RustLsp("renderDiagnostic") end, opts)
             end,
             capabilities = lsp_behavior.capabilities,
             settings = ra_settings
         },
+        dap = {
+            autoload_configurations = false
+        }
     }
 end
 

@@ -9,22 +9,20 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod1
 # Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
+set   $left    h
+set   $down    j
+set   $up      k
+set   $right   l
 
-# Multimedia keys(discovered by xorg-xev)
-set $volume_down XF86AudioLowerVolume
-set $volume_up XF86AudioRaiseVolume
-set $toggle_mute XF86AudioMute
-
-set $mic_volume_down XF86AudioPrev
-set $mic_volume_up XF86AudioPlay
-set $mic_toggle_mute XF86AudioNext
-
-set $light_up XF86MonBrightnessUp
-set $light_down XF86MonBrightnessDown
+# Multimedia keys(discovered on https://wiki.linuxquestions.org/wiki/XF86_keyboard_symbols)
+set   $volume_down       XF86AudioLowerVolume
+set   $volume_up         XF86AudioRaiseVolume
+set   $toggle_mute       XF86AudioMute
+set   $audio_play        XF86AudioPlay
+set   $audio_prev        XF86AudioPrev
+set   $audio_next        XF86AudioNext
+set   $light_up          XF86MonBrightnessUp
+set   $light_down        XF86MonBrightnessDown
 
 
 set $print_screen Print
@@ -54,7 +52,7 @@ set $menu BEMENU_BACKEND=wayland bemenu-run --no-exec -f -n -H 22 -W 0.5 -B 1 -l
     --cb '$main_background' --cf '$main_foreground' \
     | xargs swaymsg exec --
 
-set $vmenu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -f -n -b -W 1 -B 2 -p 'VM:' \
+set $vmenu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -i -f -n -b -W 1 -B 2 -p 'VM:' \
     --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -67,7 +65,7 @@ set $vmenu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -f -n -b -W 1 -B 2
     --cb '$main_background' --cf '$main_foreground' \
     | xargs -I '{}' swaymsg exec -- lxc start '{}' --console=vga
 
-set $mmenu BEMENU_BACKEND=wayland ls_music | bemenu -f -n -b -W 1 -B 2 -l 4 -p 'Play>' \
+set $mmenu BEMENU_BACKEND=wayland ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Play>' \
     --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -78,7 +76,7 @@ set $mmenu BEMENU_BACKEND=wayland ls_music | bemenu -f -n -b -W 1 -B 2 -l 4 -p '
     --ab '$main_background' --af '$main_foreground' \
     --scb '$main_background' --scf '$main_foreground' \
     --cb '$main_background' --cf '$main_foreground' \
-    | xargs -I '{}' swaymsg exec -- qmmp "~/Music/'{}'"
+    | xargs -I '{}' swaymsg exec -- sway_hook qmmp "~/Music/'{}'" -- fullscreen enable and move scratchpad
 
 
 ### Output configuration
@@ -127,7 +125,6 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     # Start your launcher
     bindsym $mod+d exec $menu
     bindsym $mod+v exec $vmenu
-    bindsym $mod+p exec $mmenu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -207,6 +204,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
+    bindsym $mod+q layout toggle all
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
@@ -275,6 +273,7 @@ mode "resize" {
     bindsym Escape mode "default"
     bindsym $mod+m mode "move"
 }
+
 bindsym $mod+r mode "resize"
 
 mode "move" {
@@ -321,11 +320,12 @@ mode "hotstuff" {
     bindsym Escape mode "default"
     bindsym Return mode "default"
 
-    bindsym c exec sway_hook $term -e 'ipython' -- floating enable and resize shrink up 525px and move down 175px and mode "default"
+    bindsym c exec sway_hook $term -e 'ipython' -- floating enable and resize shrink up 525px and move down 175px; mode "default"
 
-    bindsym q exec sway_hook cb_to_qr -- floating enable and move left 750px and move up 325px and mode "default"
+    bindsym q exec sway_hook cb_to_qr -- floating enable; mode "default"
 
-    bindsym z exec sway_hook zbarcam -- floating enable and mode "default"
+    bindsym z exec sway_hook qr_to_cb -- floating enable; mode "default"
+    bindsym p exec $mmenu; mode "default"
 }
 
 bindsym $mod+x mode "hotstuff"
@@ -348,9 +348,9 @@ bindsym Control+$print_screen exec grim -g "$(slurp -p)" -t ppm - | convert - -f
 #
 bindsym $volume_up       exec pamixer -i 10
 bindsym $volume_down     exec pamixer -d 10
-bindsym $mic_volume_up   exec pamixer --source 2 -i 10
-bindsym $mic_volume_down exec pamixer --source 2 -d 10
-bindsym $mic_toggle_mute exec pamixer --source 2 -t
+bindsym $audio_play      exec qmmp --no-start -t
+bindsym $audio_next      exec qmmp --no-start --next
+bindsym $audio_prev      exec qmmp --no-start --previous
 bindsym $toggle_mute     exec "toggle_mute_led && pamixer -t"
 bindsym $light_up        exec light -A 10
 bindsym $light_down      exec light -U 10
@@ -367,8 +367,8 @@ title_align center
 #
 # class                     border  backgr. text  indicator child_border
     client.focused          $main_foreground $main_background $main_foreground $main_foreground $main_foreground
-    client.focused_inactive #123321 $main_background #777777 #484e50 #5f676a
-    client.unfocused        #123321 $main_background #888888 #292d2e #222222
+    client.focused_inactive #222222 $main_background #777777 #222222 #222222
+    client.unfocused        #222222 $main_background #777777 #222222 #222222
     client.urgent           #2f343a #900000 #ffffff #900000 #900000
 
 include /etc/sway/config.d/*

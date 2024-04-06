@@ -1,10 +1,29 @@
 #!/usr/bin/env bash
 
+# === This hook allows to execute `swaymsg` actions precisely(almost) on the newly === #
+# === opened window.                                                               === #
+# ===                                                                              === #
+# === A command to execute and sway actions are separated by the `--` delimiter.   === #
+# ===                                                                              === #
+# === You can execute multiple sway actions via `and` built-in "keyword".          === #
+# ===                                                                              === #
+# ===                              Example:                                        === #
+# ===                                                                              === #
+# === `sway_hook your_command arg1 arg2 -- floating enable and resize shrink up    === #
+# === 25px and move left 40px`                                                     === #
+
+# Will contain a command with its arguments
 command_to_exec=()
+# Will contain all sway actions to execute on the opened window
 sway_actions=()
+# Detects a `--` separator
 split=false
 
+rm -f /tmp/sway_hook_log 2>/dev/null
+rm -f /tmp/sway_hook 2>/dev/null
+
 for arg in "$@"; do
+    echo "#$arg#" >> /tmp/sway_hook_log
     if [ "$arg" == "--" ]; then
         split=true
     elif [ "$split" == false ]; then
@@ -14,34 +33,42 @@ for arg in "$@"; do
     fi
 done
 
-swaymsg -t subscribe -p '[ "window" ]' > /tmp/sway_hook &
+echo "command_to_exec=\`${command_to_exec[@]}\`" >> /tmp/sway_hook_log
+
+# Creating a subscription process to catch a new window event. The window has 1
+# second to appear. WARN: yes, there is a race with other windows not related
+# to the executed command so use the script carefully
+timeout -k 1s 1s swaymsg -t subscribe -p '[ "window" ]' > /tmp/sway_hook &
 subscription=$!
 
-${command_to_exec[@]} &
+# Launching a command and saving its PID to check if it actually runs
+"${command_to_exec[@]}" &
 pid=$!
 
+# If it runs wait for a window event
 if ps -p $pid > /dev/null; then
     wait $subscription
 
+    change_type=`grep -a '"change":' /tmp/sway_hook | awk '{ print $2 }' | tr -d ',\"' | head -n1`
     con_id=`grep -a '"id":' /tmp/sway_hook | awk '{ print $2 }' | tr -d ',' | head -n1`
 
-    sway_exec=()
+    echo "CHANGE=$change_type" >> /tmp/sway_hook_log
+    echo "ID=$con_id" >> /tmp/sway_hook_log
 
-    for arg in ${sway_actions[@]}; do
-        if [ "$arg" == "and" ]; then
-            if [ ${#sway_exec[@]} -ne 0 ]; then
-                swaymsg "[con_id=$con_id]" "${sway_exec[@]}"
-                sleep 0.05
-            fi
+    # Some processes work in a single-instance mode, some don't spawn a window
+    # for particular use-cases, etc. We want to ignore sway actions in such
+    # situations as they might affect not related windows.
+    if [ "$change_type" != "new" ] || [ -z "$con_id" ]; then
+        echo "Abort!" >> /tmp/sway_hook_log
+        exit 0
+    fi
 
-            sway_exec=()
-        else
-            sway_exec+=("$arg")
-        fi
-    done
+    sway_exec="${sway_actions[@]//and/;}"
+    echo "SWAY_EXEC=$sway_exec" >> /tmp/sway_hook_log
 
-    swaymsg "[con_id=$con_id]" "${sway_exec[@]}"
+    swaymsg "[con_id=$con_id]" "${sway_exec}"
+# Exit otherwise
 else
-    kill $subscription
+    echo "PROCESS DIDN'T LAUNCH!" >> /tmp/sway_hook_log
     exit 1
 fi

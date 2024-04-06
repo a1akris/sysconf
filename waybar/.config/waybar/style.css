@@ -194,6 +194,7 @@ label:focus {
 }
 
 #idle_inhibitor.activated {
+    border-radius: 100%;
     background-color: #ffe6a6;
     color: black;
 }

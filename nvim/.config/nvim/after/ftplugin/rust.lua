@@ -1,42 +1,24 @@
-local status_ok, utils = pcall(require, "default.utils")
+local utils = require "essentials.utils"
 
-if not status_ok then
-    print("Default utils not found")
-    return
+local remote_runner = "~/work/on-remote"
+local clippy = { "cargo", "clippy", "--all-features" }
+local build = { "cargo", "build", "--release" }
+local test = { "cargo", "test", "--all-features" }
+local run = { "cargo", "run" }
+
+local build_user_cmds = function(command_args)
+    return function(opts)
+        utils.exec_cmd(utils.concat_array_tables(command_args, opts.fargs))
+    end, function(opts)
+        local remote_command = utils.concat_arrays(remote_runner, command_args)
+        utils.exec_cmd(utils.concat_array_tables(remote_command, opts.fargs))
+    end
 end
 
-local remote_clippy_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "~/work/on-remote", "cargo", "clippy", "--all-features" }, opts.fargs))
-end
-
-local remote_build_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "~/work/on-remote", "cargo", "build", "--release" }, opts.fargs))
-end
-
-local remote_run_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "~/work/on-remote", "cargo", "run" }, opts.fargs))
-end
-
-local remote_test_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "~/work/on-remote", "cargo", "test", "--all-features" }, opts.fargs))
-end
-
-local local_clippy_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "cargo", "clippy", "--all-features" }, opts.fargs))
-end
-
-local local_build_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "cargo", "build", "--release" }, opts.fargs))
-end
-
-local local_run_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "cargo", "run" }, opts.fargs))
-end
-
-local local_test_cmd = function(opts)
-    utils.exec_cmd(utils.concat_array_tables({ "cargo", "test", "--all-features" }, opts.fargs))
-end
-
+local local_clippy_cmd, remote_clippy_cmd = build_user_cmds(clippy)
+local local_build_cmd, remote_build_cmd = build_user_cmds(build)
+local local_test_cmd, remote_test_cmd = build_user_cmds(test)
+local local_run_cmd, remote_run_cmd = build_user_cmds(run)
 
 vim.api.nvim_buf_create_user_command(0, 'Rcc', remote_clippy_cmd, {
     nargs = '*',

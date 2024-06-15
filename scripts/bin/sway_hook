@@ -35,10 +35,10 @@ done
 
 echo "command_to_exec=\`${command_to_exec[@]}\`" >> /tmp/sway_hook_log
 
-# Creating a subscription process to catch a new window event. The window has 1
-# second to appear. WARN: yes, there is a race with other windows not related
+# Creating a subscription process to catch a new window event. The window has 2
+# seconds to appear. WARN: yes, there is a race with other windows not related
 # to the executed command so use the script carefully
-timeout -k 1s 1s swaymsg -t subscribe -p '[ "window" ]' > /tmp/sway_hook &
+timeout -k 2s 2s swaymsg -t subscribe -p '[ "window" ]' > /tmp/sway_hook &
 subscription=$!
 
 # Launching a command and saving its PID to check if it actually runs

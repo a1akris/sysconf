@@ -1,0 +1,5 @@
+require "essentials.commands"
+require "essentials.keymaps"
+require "essentials.options"
+require "essentials.tabline"
+require "essentials.utils"

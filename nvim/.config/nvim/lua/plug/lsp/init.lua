@@ -16,20 +16,13 @@ if not lspconfig_ok then
     return
 end
 
-local lsp_behavior = require("default.plug.lsp.behavior")
+local lsp_behavior = require("plug.lsp.behavior")
 
 mason.setup()
 mason_lspconfig.setup()
 lsp_behavior.setup()
 
 local rustacean_ok, _ = pcall(require, "rustaceanvim")
-local neodev_ok, neodev = pcall(require, "neodev")
-
-if neodev_ok then
-    neodev.setup({
-
-    })
-end
 
 local ra_settings = {
     ["rust-analyzer"] = {
@@ -39,11 +32,7 @@ local ra_settings = {
         cargo = {
             features = "all"
         },
-        checkOnSave = true,
-        check = {
-            command = "clippy",
-            extraArgs = { "--", "-Aclippy::pedantic" },
-        },
+        checkOnSave = false,
         hover = {
             actions = {
                 references = {
@@ -87,7 +76,6 @@ else
 
                 keymap("n", "g<Tab>", function() vim.cmd.RustLsp("codeAction") end, opts)
                 keymap("n", "gE", function() vim.cmd.RustLsp("explainError") end, opts)
-                keymap("n", "g?", function() vim.cmd.RustLsp("hover") end, opts)
                 keymap("n", "gh", function() vim.cmd.RustLsp("renderDiagnostic") end, opts)
             end,
             capabilities = lsp_behavior.capabilities,

@@ -76,7 +76,7 @@ set $mmenu BEMENU_BACKEND=wayland ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 4 -
     --ab '$main_background' --af '$main_foreground' \
     --scb '$main_background' --scf '$main_foreground' \
     --cb '$main_background' --cf '$main_foreground' \
-    | xargs -I '{}' swaymsg exec -- sway_hook qmmp "~/Music/'{}'" -- fullscreen enable and move scratchpad
+    | xargs -I '{}' swaymsg exec -- sway_hook qmmp "~/GemBox/Music/'{}'" -- fullscreen enable and move scratchpad
 
 
 ### Output configuration

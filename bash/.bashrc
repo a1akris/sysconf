@@ -24,3 +24,6 @@ starship --version &>/dev/null
 if [ $? -eq 0 ]; then
     eval -- "$(/usr/bin/starship init bash --print-full-init)"
 fi
+
+# Added by Radicle.
+export PATH="$PATH:/home/sanshi/.radicle/bin"

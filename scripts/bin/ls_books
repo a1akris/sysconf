@@ -1,0 +1,3 @@
+#!/bin/bash
+
+fd . ~/GemBox/Library/ -t f '*.doc?' -E '*.mp3' -E '*.xlsx' | cut -d '/' -f6- | sort

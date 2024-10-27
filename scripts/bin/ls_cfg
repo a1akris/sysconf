@@ -1,0 +1,3 @@
+#!/bin/bash
+
+fd . ~/sysconf/ -H -t f -E '*.jpg' -E '*.png' -E '.git' -E 'nvim' | cut -d '/' -f5- | sort

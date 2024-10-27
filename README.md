@@ -6,4 +6,4 @@ Apply dotfiles:
 `stow */`
 
 Remove dotfiles:
-`stow -R */`
+`stow -D */`

@@ -52,7 +52,7 @@ set $menu BEMENU_BACKEND=wayland bemenu-run --no-exec -f -n -H 22 -W 0.5 -B 1 -l
     --cb '$main_background' --cf '$main_foreground' \
     | xargs swaymsg exec --
 
-set $vmenu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -i -f -n -b -W 1 -B 2 -p 'VM:' \
+set $vm_menu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -i -f -n -b -W 1 -B 2 -p 'VM:' \
     --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -65,7 +65,7 @@ set $vmenu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -i -f -n -b -W 1 -
     --cb '$main_background' --cf '$main_foreground' \
     | xargs -I '{}' swaymsg exec -- lxc start '{}' --console=vga
 
-set $mmenu BEMENU_BACKEND=wayland ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Play>' \
+set $mus_menu BEMENU_BACKEND=wayland ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Play>' \
     --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -78,6 +78,31 @@ set $mmenu BEMENU_BACKEND=wayland ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 4 -
     --cb '$main_background' --cf '$main_foreground' \
     | xargs -I '{}' swaymsg exec -- sway_hook qmmp "~/GemBox/Music/'{}'" -- fullscreen enable and move scratchpad
 
+set $read_menu BEMENU_BACKEND=wayland ls_books | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Read>' \
+    --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
+    --tb '$main_background' --tf '$main_foreground' \
+    --fb '$main_background' --ff '$main_foreground' \
+    --nb '$main_background' --nf '$main_foreground' \
+    --hb '$main_foreground' --hf '$black' \
+    --fbb '$main_background' --fbf '$main_foreground' \
+    --sb '$main_background' --sf '$main_foreground' \
+    --ab '$main_background' --af '$main_foreground' \
+    --scb '$main_background' --scf '$main_foreground' \
+    --cb '$main_background' --cf '$main_foreground' \
+    | xargs -I '{}' swaymsg exec -- sway_hook zathura "~/GemBox/Library/'{}'" -- fullscreen enable
+
+set $cfg_menu BEMENU_BACKEND=wayland ls_cfg | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'CFG>' \
+    --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
+    --tb '$main_background' --tf '$main_foreground' \
+    --fb '$main_background' --ff '$main_foreground' \
+    --nb '$main_background' --nf '$main_foreground' \
+    --hb '$main_foreground' --hf '$black' \
+    --fbb '$main_background' --fbf '$main_foreground' \
+    --sb '$main_background' --sf '$main_foreground' \
+    --ab '$main_background' --af '$main_foreground' \
+    --scb '$main_background' --scf '$main_foreground' \
+    --cb '$main_background' --cf '$main_foreground' \
+    | xargs -I '{}' swaymsg exec -- $term -e nvim "~/sysconf/'{}'"
 
 ### Output configuration
 #
@@ -123,8 +148,8 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
-    bindsym $mod+v exec $vmenu
+    bindsym $mod+o exec $menu
+    bindsym $mod+v exec $vm_menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -274,7 +299,7 @@ mode "resize" {
     bindsym $mod+m mode "move"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+Slash mode "resize"
 
 mode "move" {
     bindsym $left move left 10px
@@ -325,7 +350,10 @@ mode "hotstuff" {
     bindsym q exec sway_hook cb_to_qr -- floating enable; mode "default"
 
     bindsym z exec sway_hook qr_to_cb -- floating enable; mode "default"
-    bindsym p exec $mmenu; mode "default"
+    bindsym m exec $mus_menu; mode "default"
+    bindsym v exec $vm_menu; mode "default"
+    bindsym r exec $read_menu; mode "default"
+    bindsym u exec $cfg_menu; mode "default"
 }
 
 bindsym $mod+x mode "hotstuff"
@@ -340,7 +368,7 @@ bar {
 
 # Take a screenshot
 bindsym $print_screen       exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | wl-copy
-bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" /tmp/screen && gimp /tmp/screen && rm /tmp/screen
+bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | swappy -f -
 # Pick a color
 bindsym Control+$print_screen exec grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- > /tmp/color && sway_hook $term -e nvim /tmp/color -- floating enable
 #

@@ -33,21 +33,4 @@ function M.exec_cmd(args)
     vim.cmd { cmd = "te", args = args }
 end
 
-function M.init_lazy()
-    local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-    if not (vim.uv or vim.loop).fs_stat(lazypath) then
-        vim.fn.system({
-            "git",
-            "clone",
-            "--filter=blob:none",
-            "https://github.com/folke/lazy.nvim.git",
-            "--branch=stable", -- latest stable release
-            lazypath,
-        })
-    end
-    vim.opt.rtp:prepend(lazypath)
-
-    return pcall(require, "lazy")
-end
-
 return M

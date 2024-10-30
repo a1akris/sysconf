@@ -14,7 +14,7 @@ vim.g.maplocalleader = " "
 --   term - 't'
 --   command - 't'
 
--- Split windows simpolified switching and moving
+-- Split windows simplified switching and moving
 keymap("n", "<C-l>", "<C-w>l", opts)
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
@@ -42,27 +42,6 @@ keymap("n", "<leader>j", "J", opts)
 keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 keymap("t", ";j", "<C-\\><C-n>", opts)
 
--- File ops
-keymap("n", "<leader>s", ":w<cr>", opts)
-
--- Move text
-keymap("v", "J", ":m '>+1<cr>gv=gv", opts)
-keymap("v", "K", ":m '<-2<cr>gv=gv", opts)
-
-keymap("x", "J", ":m '>+1<cr>gv=gv", opts)
-keymap("x", "K", ":m '<-2<cr>gv=gv", opts)
-
 -- Highlight fix
 keymap("n", "n", "n:set hlsearch<cr>", opts)
 keymap("n", "N", "N:set hlsearch<cr>", opts)
-
-local fix_group = vim.api.nvim_create_augroup("small_fixes", {
-    clear = true,
-})
-
-vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-    group = fix_group,
-    pattern = "*",
-    command = "set nohlsearch",
-    desc = "Disable highlight on cursor move",
-})

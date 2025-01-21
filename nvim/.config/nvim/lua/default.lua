@@ -1,7 +1,6 @@
 -- Essentials
 require "essentials"
 
--- Almost always useful
 require "default.autocommands"
 
 -- Plugins

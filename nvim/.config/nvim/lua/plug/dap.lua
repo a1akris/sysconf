@@ -7,6 +7,21 @@ end
 
 -- DAP Config
 
+dap.adapters.godot = {
+    type = "server",
+    host = "127.0.0.1",
+    port = 6006,
+}
+
+dap.configurations.gdscript = {
+    {
+        type = "godot",
+        request = "launch",
+        name = "Launch scene",
+        project = "${workspaceFolder}"
+    }
+}
+
 
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }

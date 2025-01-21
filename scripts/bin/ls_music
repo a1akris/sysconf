@@ -1,3 +1,0 @@
-#!/bin/bash
-
-fd . ~/GemBox/Music/ -t d | cut -d '/' -f6- | sort

@@ -65,7 +65,7 @@ set $vm_menu BEMENU_BACKEND=wayland lxc ls -c n -f csv | bemenu -i -f -n -b -W 1
     --cb '$main_background' --cf '$main_foreground' \
     | xargs -I '{}' swaymsg exec -- lxc start '{}' --console=vga
 
-set $mus_menu BEMENU_BACKEND=wayland ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Play>' \
+set $mus_menu BEMENU_BACKEND=wayland ~/e/sys/ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Play>' \
     --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -76,9 +76,9 @@ set $mus_menu BEMENU_BACKEND=wayland ls_music | bemenu -i -f -n -b -W 1 -B 2 -l 
     --ab '$main_background' --af '$main_foreground' \
     --scb '$main_background' --scf '$main_foreground' \
     --cb '$main_background' --cf '$main_foreground' \
-    | xargs -I '{}' swaymsg exec -- sway_hook qmmp "~/GemBox/Music/'{}'" -- fullscreen enable and move scratchpad
+    | xargs -I '{}' swaymsg exec -- ~/e/sys/sway_hook qmmp "~/v/Mus/'{}'" -- floating enable and move scratchpad
 
-set $read_menu BEMENU_BACKEND=wayland ls_books | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Read>' \
+set $read_menu BEMENU_BACKEND=wayland ~/e/sys/ls_books | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'Read>' \
     --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -89,9 +89,9 @@ set $read_menu BEMENU_BACKEND=wayland ls_books | bemenu -i -f -n -b -W 1 -B 2 -l
     --ab '$main_background' --af '$main_foreground' \
     --scb '$main_background' --scf '$main_foreground' \
     --cb '$main_background' --cf '$main_foreground' \
-    | xargs -I '{}' swaymsg exec -- sway_hook zathura "~/GemBox/Library/'{}'" -- fullscreen enable
+    | xargs -I '{}' swaymsg exec -- ~/e/sys/sway_hook zathura "~/v/Lib/'{}'" -- fullscreen enable
 
-set $cfg_menu BEMENU_BACKEND=wayland ls_cfg | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'CFG>' \
+set $cfg_menu BEMENU_BACKEND=wayland ~/e/sys/ls_cfg | bemenu -i -f -n -b -W 1 -B 2 -l 4 -p 'CFG>' \
     --hp 10 --fn 'FiraCode 14' --bdr '$main_background' \
     --tb '$main_background' --tf '$main_foreground' \
     --fb '$main_background' --ff '$main_foreground' \
@@ -102,12 +102,12 @@ set $cfg_menu BEMENU_BACKEND=wayland ls_cfg | bemenu -i -f -n -b -W 1 -B 2 -l 4 
     --ab '$main_background' --af '$main_foreground' \
     --scb '$main_background' --scf '$main_foreground' \
     --cb '$main_background' --cf '$main_foreground' \
-    | xargs -I '{}' swaymsg exec -- $term -e nvim "~/sysconf/'{}'"
+    | xargs -I '{}' swaymsg exec -- ~/e/sys/sway_hook $term -e nvim -c '"cd %:p:h "' "~/s/'{}'" -- "floating enable and resize set 1024px 768px\; move absolute position center"
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/Wallpapers/hepard.jpg fill
+output * bg ~/v/Pic/hepard.jpg fill
 #
 # Example configuration:
 #
@@ -117,9 +117,9 @@ output * bg ~/Wallpapers/hepard.jpg fill
 
 ### Idle configuration
 exec swayidle -w \
-         timeout 600 'swaylock -f -i ~/Wallpapers/black-gold-abstract.jpg' \
+         timeout 600 'swaylock -f -i ~/v/Pic/black-gold-abstract.jpg' \
          timeout 660 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -i ~/Wallpapers/black-gold-abstract.jpg'
+         before-sleep 'swaylock -f -i ~/v/Pic/black-gold-abstract.jpg'
 
 ### Input configuration
 input * {
@@ -142,7 +142,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    bindsym $mod+Slash exec $term
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -162,7 +162,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     bindsym $mod+Shift+c reload
 
     # Lock session
-    bindsym $mod+period exec swaylock -f -i ~/Wallpapers/black-gold-abstract.jpg
+    bindsym $mod+period exec swaylock -f -i ~/v/Pic/black-gold-abstract.jpg
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
@@ -224,6 +224,7 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
     bindsym $mod+t splitt
+    bindsym $mod+Return layout default
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
@@ -299,7 +300,7 @@ mode "resize" {
     bindsym $mod+m mode "move"
 }
 
-bindsym $mod+Slash mode "resize"
+bindsym $mod+r mode "resize"
 
 mode "move" {
     bindsym $left move left 10px
@@ -345,11 +346,11 @@ mode "hotstuff" {
     bindsym Escape mode "default"
     bindsym Return mode "default"
 
-    bindsym c exec sway_hook $term -e 'ipython' -- floating enable and resize shrink up 525px and move down 175px; mode "default"
+    bindsym c exec ~/e/sys/sway_hook $term -e 'ipython' -- move down and move down and move down and move down\; resize set height 10ppt; mode "default"
 
-    bindsym q exec sway_hook cb_to_qr -- floating enable; mode "default"
+    bindsym q exec ~/e/sys/sway_hook ~/e/sys/cb_to_qr -- floating enable and move absolute 75px 25px; mode "default"
 
-    bindsym z exec sway_hook qr_to_cb -- floating enable; mode "default"
+    bindsym z exec ~/e/sys/sway_hook ~/e/sys/qr_to_cb -- floating enable; mode "default"
     bindsym m exec $mus_menu; mode "default"
     bindsym v exec $vm_menu; mode "default"
     bindsym r exec $read_menu; mode "default"
@@ -370,8 +371,9 @@ bar {
 bindsym $print_screen       exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | wl-copy
 bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | swappy -f -
 # Pick a color
-bindsym Control+$print_screen exec grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- > /tmp/color && sway_hook $term -e nvim /tmp/color -- floating enable
-#
+bindsym $mod+$print_screen exec grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- > /tmp/color && NVIM_CONFIG=essentials ~/e/sys/sway_hook $term -e nvim -c "set laststatus=0" /tmp/color -- floating enable and resize set 666px 99px and move absolute position center
+# Extract text from image
+bindsym Control+$print_screen   exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | tesseract - /tmp/screen && wl-copy < /tmp/screen.txt && ~/e/sys/sway_hook $term -e nvim /tmp/screen.txt -- floating enable and resize set 1024px 768px\; move absolute position center
 # Multimedia:
 #
 bindsym $volume_up       exec pamixer -i 10
@@ -379,7 +381,7 @@ bindsym $volume_down     exec pamixer -d 10
 bindsym $audio_play      exec qmmp --no-start -t
 bindsym $audio_next      exec qmmp --no-start --next
 bindsym $audio_prev      exec qmmp --no-start --previous
-bindsym $toggle_mute     exec "toggle_mute_led && pamixer -t"
+bindsym $toggle_mute     exec "~/e/sys/toggle_mute_led && pamixer -t"
 bindsym $light_up        exec light -A 10
 bindsym $light_down      exec light -U 10
 

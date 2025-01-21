@@ -24,6 +24,7 @@ local custom_mappings = {
         ["<C-j>"] = require("telescope.actions").move_selection_next,
         ["<C-k>"] = require("telescope.actions").move_selection_previous,
         ["<C-l>"] = require("telescope.actions").send_to_qflist,
+        ["<C-q>"] = require("telescope.actions").send_selected_to_qflist,
     }
 }
 

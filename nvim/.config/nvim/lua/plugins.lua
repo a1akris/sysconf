@@ -5,7 +5,7 @@ M.addons = {}
 M.addons["colorscheme"] = {
     lazy_plugins = {
         {
-            "Shatur/neovim-ayu",
+            "a1akris/neovim-ayu",
             lazy = false,
             priority = 1000,
         },
@@ -13,14 +13,18 @@ M.addons["colorscheme"] = {
     configuration = "plug.colorscheme"
 }
 
--- Misc
 M.addons["misc"] = {
     lazy_plugins = {
         {
-            "godlygeek/tabular",
-            cmd = "Tab"
+            "zk-org/zk-nvim",
         },
-    }
+        {
+            "godlygeek/tabular",
+            cmd = "Tab",
+            lazy = false,
+        },
+    },
+    configuration = "plug.misc"
 }
 
 -- Base
@@ -36,7 +40,8 @@ M.addons["git"] = {
     lazy_plugins = {
         {
             "tpope/vim-fugitive",
-            cmd = "Git"
+            cmd = "Git",
+            lazy = false
         }
     }
 }
@@ -69,7 +74,7 @@ M.addons["LSP"] = {
         }, -- optional `vim.uv` typings
         {
             "mrcjkb/rustaceanvim",
-            version = '^4', -- Recommended
+            version = '^5', -- Recommended
             lazy = false,
         },
         "rust-lang/rust.vim",
@@ -162,11 +167,11 @@ M.addons["debug"] = {
     lazy_plugins = {
         "mfussenegger/nvim-dap",
         {
-            "mfussenegger/nvim-dap-ui",
+            "rcarriga/nvim-dap-ui",
             dependencies = {
-                "mfussenegger/nvim-dap"
+                "mfussenegger/nvim-dap",
+                "nvim-neotest/nvim-nio",
             },
-            commit = "34160a7ce6072ef332f350ae1d4a6a501daf0159"
         },
         {
             "nvim-telescope/telescope-dap.nvim",
@@ -232,7 +237,7 @@ function M.setup_all_except(...)
         end
     end
 
-    lazy.setup(plugins)
+    lazy.setup({ spec = plugins })
 
     for _, cfg in ipairs(configurations) do
         local cfg_ok, _ = pcall(require, cfg)

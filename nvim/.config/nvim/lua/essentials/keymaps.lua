@@ -24,7 +24,7 @@ keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<leader>[", ":bprev!<cr>", opts)
 keymap("n", "<leader>]", ":bnext!<cr>", opts)
 keymap("n", "<leader><leader>", "<C-^>", opts)
-keymap("n", "<leader>w", ":bn<bar>:sp<bar>:bp<bar>:bd<cr>", opts)
+keymap("n", "<leader>w", ":w<cr>:bn<bar>:sp<bar>:bp<bar>:bd<cr>", opts)
 keymap("n", "<leader>q", ":bn<bar>:sp<bar>:bp<bar>:bd!<cr>", opts)
 
 -- Scrolling
@@ -37,6 +37,7 @@ keymap("i", "{<cr>", "{<cr>}<C-o>O", opts)
 keymap("n", "<leader>o", "o<esc>", opts)
 keymap("n", "<leader>O", "O<esc>", opts)
 keymap("n", "<leader>j", "J", opts)
+keymap("n", "<leader>k", "K", opts)
 
 -- Terminal keys
 keymap("t", "<Esc>", "<C-\\><C-n>", opts)

@@ -82,7 +82,7 @@ else
             settings = ra_settings
         },
         dap = {
-            autoload_configurations = false
+            autoload_configurations = true
         }
     }
 end
@@ -97,4 +97,10 @@ lsp_config.lua_ls.setup {
             }
         }
     }
+}
+
+lsp_config.gdscript.setup {
+    on_attach = lsp_behavior.on_attach_default,
+    capabilities = lsp_behavior.capabilities,
+    settings = {}
 }

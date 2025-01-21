@@ -1,9 +1,0 @@
-#!/bin/bash
-
-wl-paste \
-    | qrencode -s 8 -d 144 -o /tmp/qr \
-    && swayimg \
-    -c info.show=no \
-    -c general.size=400,400, \
-    -c general.position=0,40 \
-    /tmp/qr

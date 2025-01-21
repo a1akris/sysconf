@@ -1,3 +1,0 @@
-#!/bin/bash
-
-zbarcam -q -1 | cut -d ':' -f2- | wl-copy -n

@@ -370,12 +370,14 @@ bar {
 # Take a screenshot
 bindsym $print_screen       exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | wl-copy
 bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | swappy -f -
+
+# Extract text from screen
+bindsym Control+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | tesseract - /tmp/screen && ~/e/sys/sway_hook $term -e nvim /tmp/screen.txt -- floating enable and resize set 1024px 768px\; move absolute position center
+
 # Pick a color
-bindsym $mod+$print_screen exec grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- > /tmp/color && NVIM_CONFIG=essentials ~/e/sys/sway_hook $term -e nvim -c "set laststatus=0" /tmp/color -- floating enable and resize set 666px 99px and move absolute position center
-# Extract text from image
-bindsym Control+$print_screen   exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | tesseract - /tmp/screen && wl-copy < /tmp/screen.txt && ~/e/sys/sway_hook $term -e nvim /tmp/screen.txt -- floating enable and resize set 1024px 768px\; move absolute position center
-# Multimedia:
-#
+bindsym $mod+$print_screen exec hyprpicker -qlan
+
+# Multimedia bindings
 bindsym $volume_up       exec pamixer -i 10
 bindsym $volume_down     exec pamixer -d 10
 bindsym $audio_play      exec qmmp --no-start -t

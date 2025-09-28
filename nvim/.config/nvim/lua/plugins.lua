@@ -23,6 +23,9 @@ M.addons["misc"] = {
             cmd = "Tab",
             lazy = false,
         },
+        {
+            "terrastruct/d2-vim"
+        }
     },
     configuration = "plug.misc"
 }
@@ -50,7 +53,10 @@ M.addons["git"] = {
 M.addons["LSP"] = {
     lazy_plugins = {
         -- LSP
-        "neovim/nvim-lspconfig",
+        {
+            "neovim/nvim-lspconfig",
+            config = false
+        },
         {
             "williamboman/mason.nvim",
             build = ":MasonUpdate"
@@ -68,13 +74,14 @@ M.addons["LSP"] = {
                 },
             },
         },
+        -- optional `vim.uv` typings
         {
             "Bilal2453/luvit-meta",
             lazy = true
-        }, -- optional `vim.uv` typings
+        },
         {
             "mrcjkb/rustaceanvim",
-            version = '^5', -- Recommended
+            version = '^6', -- Recommended
             lazy = false,
         },
         "rust-lang/rust.vim",
@@ -190,6 +197,8 @@ M.addons["debug"] = {
     configuration = "plug.dap"
 }
 
+-- #### SET UP IMPLEMENTATION ####
+
 local init_lazy = function()
     local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
     if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -206,49 +215,75 @@ local init_lazy = function()
     return pcall(require, "lazy")
 end
 
-function M.setup_all_except(...)
+
+local include_filter = function(include_list)
+    return function()
+        for _, f in ipairs(include_list) do
+            if M.addons[f] then
+                for _, plug in ipairs(M.addons[f].lazy_plugins) do
+                    table.insert(M.plugins, plug)
+                end
+
+                if M.addons[f].configuration then
+                    table.insert(M.configurations, M.addons[f].configuration)
+                end
+            end
+        end
+    end
+end
+
+
+local exclude_filter = function(exclude_list)
+    return function()
+        local exclude_filter = {}
+
+        for _, v in ipairs(exclude_list) do
+            exclude_filter[v] = true
+        end
+
+        for k, v in pairs(M.addons) do
+            if not exclude_filter[k] then
+                for _, plug in ipairs(v.lazy_plugins) do
+                    table.insert(M.plugins, plug)
+                end
+
+                if v.configuration then
+                    table.insert(M.configurations, v.configuration)
+                end
+            end
+        end
+    end
+end
+
+local generic_setup = function(filter_fn)
     -- Verify that lazy exists
     local status_ok, lazy = init_lazy()
 
     if not status_ok then
-        vim.notify("Failed to setup a plugin manager. Time to live without plugins!")
+        vim.notify("Failed to setup a plugin manager. Time to live without plugins!", vim.log.levels.ERROR)
         return status_ok
     end
 
-    local exclude_list = { ... }
-    local exclude_filter = {}
+    M.plugins = {}
+    M.configurations = {}
+    filter_fn()
 
-    for _, v in ipairs(exclude_list) do
-        exclude_filter[v] = true
-    end
+    lazy.setup({ spec = M.plugins })
 
-    local plugins = {}
-    local configurations = {}
-
-    for k, v in pairs(M.addons) do
-        if not exclude_filter[k] then
-            for _, plug in ipairs(v.lazy_plugins) do
-                table.insert(plugins, plug)
-            end
-
-            if v.configuration then
-                table.insert(configurations, v.configuration)
-            end
-        end
-    end
-
-    lazy.setup({ spec = plugins })
-
-    for _, cfg in ipairs(configurations) do
-        local cfg_ok, _ = pcall(require, cfg)
+    for _, cfg in ipairs(M.configurations) do
+        local cfg_ok, err = pcall(require, cfg)
 
         if not cfg_ok then
-            vim.error("Failed to import " .. cfg)
-            return cfg_ok
+            vim.notify("Failed to import " .. cfg .. ": " .. err, vim.log.levels.WARN)
         end
     end
 
     return status_ok
+end
+
+function M.setup_all_except(...)
+    local excluded_categories = { ... }
+    return generic_setup(exclude_filter(excluded_categories))
 end
 
 function M.setup_all()
@@ -256,42 +291,8 @@ function M.setup_all()
 end
 
 function M.setup(...)
-    -- Verify that lazy exists
-    local status_ok, lazy = init_lazy()
-
-    if not status_ok then
-        vim.notify("Failed to setup a plugin manager. Time to live without plugins!")
-        return status_ok
-    end
-
-    local categories_filter = { ... }
-    local plugins = {}
-    local configurations = {}
-
-    for _, f in ipairs(categories_filter) do
-        if M.addons[f] then
-            for _, plug in ipairs(M.addons[f].lazy_plugins) do
-                table.insert(plugins, plug)
-            end
-
-            if M.addons[f].configuration then
-                table.insert(configurations, M.addons[f].configuration)
-            end
-        end
-    end
-
-    lazy.setup({ spec = plugins })
-
-    for _, cfg in ipairs(configurations) do
-        local cfg_ok, _ = pcall(require, cfg)
-
-        if not cfg_ok then
-            vim.notify("Failed to import " .. cfg)
-            return cfg_ok
-        end
-    end
-
-    return status_ok
+    local included_categories = { ... }
+    return generic_setup(include_filter(included_categories))
 end
 
 return M

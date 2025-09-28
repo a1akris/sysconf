@@ -3,7 +3,7 @@
 `sudo ./arch.software`
 
 Apply dotfiles:
-`stow */`
+`stow -t ~/ */`
 
 Remove dotfiles:
-`stow -D */`
+`stow -t ~/ -D */`

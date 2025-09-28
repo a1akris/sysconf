@@ -1,5 +1,6 @@
 _G.__my_tabline = function()
-    local tabline = 'views: '
+    local tabline = ''
+
     for i = 1, vim.fn.tabpagenr('$') do
         if i == vim.fn.tabpagenr() then
             tabline = tabline .. '%#TabLineSel#'

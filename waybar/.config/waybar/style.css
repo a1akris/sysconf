@@ -75,7 +75,9 @@ window#waybar.chromium {
     background-color: #eb4d4b;
 }
 
-#mode {
+#mode,
+#custom-recording
+{
     background-color: transparent;
     border-bottom: 3px solid #ffe6a6;
 }

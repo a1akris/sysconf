@@ -16,9 +16,9 @@ nvim_tree.setup {
     sort_by                            = "name",
     root_dirs                          = {},
     prefer_startup_root                = false,
-    sync_root_with_cwd                 = false,
+    sync_root_with_cwd                 = true,
     reload_on_bufenter                 = true,
-    respect_buf_cwd                    = false,
+    respect_buf_cwd                    = true,
     on_attach                          = "disable",
     select_prompts                     = true,
     view                               = {
@@ -106,8 +106,11 @@ nvim_tree.setup {
     },
     update_focused_file                = {
         enable      = false,
-        update_cwd  = false,
-        ignore_list = {}
+        update_root = {
+            enable = false,
+            ignore_list = {}
+        },
+        exclude     = false,
     },
     system_open                        = {
         cmd = "",

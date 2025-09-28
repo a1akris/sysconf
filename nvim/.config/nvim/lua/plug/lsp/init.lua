@@ -10,16 +10,8 @@ if not mason_lspconfig_ok then
     return
 end
 
-local lspconfig_ok, lsp_config = pcall(require, "lspconfig")
-if not lspconfig_ok then
-    vim.notify("LSP: lspconfig not found")
-    return
-end
-
 local lsp_behavior = require("plug.lsp.behavior")
 
-mason.setup()
-mason_lspconfig.setup()
 lsp_behavior.setup()
 
 local rustacean_ok, _ = pcall(require, "rustaceanvim")
@@ -27,12 +19,12 @@ local rustacean_ok, _ = pcall(require, "rustaceanvim")
 local ra_settings = {
     ["rust-analyzer"] = {
         diagnostics = {
-            enable = false
+            enable = true
         },
         cargo = {
             features = "all"
         },
-        checkOnSave = false,
+        checkOnSave = true,
         hover = {
             actions = {
                 references = {
@@ -51,19 +43,24 @@ local ra_settings = {
             },
             expressionAdjustmentHints = {
                 enable = true,
-            },
-            maxLength = "null",
+            }
+            -- maxLength = ,
         }
     }
 }
 
+vim.lsp.config('*', {
+    on_attach = lsp_behavior.on_attach_default,
+    capabilities = lsp_behavior.capabilities,
+})
+
 if not rustacean_ok then
     vim.notify("Rust tools not found. Using raw rust-analyzer")
-    lsp_config.rust_analyzer.setup {
+    vim.lsp.config("rust_analyzer", {
         on_attach = lsp_behavior.on_attach_default,
         capabilities = lsp_behavior.capabilities,
         settings = ra_settings
-    }
+    })
 else
     vim.g.rustaceanvim = {
         server = {
@@ -76,7 +73,7 @@ else
 
                 keymap("n", "g<Tab>", function() vim.cmd.RustLsp("codeAction") end, opts)
                 keymap("n", "gE", function() vim.cmd.RustLsp("explainError") end, opts)
-                keymap("n", "gh", function() vim.cmd.RustLsp("renderDiagnostic") end, opts)
+                keymap("n", "gh", function() vim.cmd.RustLsp({ "renderDiagnostic", "current" }) end, opts)
             end,
             capabilities = lsp_behavior.capabilities,
             settings = ra_settings
@@ -87,9 +84,7 @@ else
     }
 end
 
-lsp_config.lua_ls.setup {
-    on_attach = lsp_behavior.on_attach_default,
-    capabilities = lsp_behavior.capabilities,
+vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
             completion = {
@@ -97,10 +92,16 @@ lsp_config.lua_ls.setup {
             }
         }
     }
-}
+})
 
-lsp_config.gdscript.setup {
-    on_attach = lsp_behavior.on_attach_default,
-    capabilities = lsp_behavior.capabilities,
-    settings = {}
-}
+mason.setup()
+
+if rustacean_ok then
+    mason_lspconfig.setup({
+        automatic_enable = {
+            exclude = { "rust_analyzer" }
+        }
+    })
+else
+    mason_lspconfig.setup()
+end

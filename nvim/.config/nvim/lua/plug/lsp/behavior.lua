@@ -59,49 +59,53 @@ local function lsp_keymaps(client, bufnr)
     keymap("n", "gr", vim.lsp.buf.rename, opts)
     keymap("n", "g<Tab>", vim.lsp.buf.code_action, opts)
 
-    keymap("n", "[d", vim.diagnostic.goto_prev, opts)
-    keymap("n", "]d", vim.diagnostic.goto_next, opts)
+    keymap("n", "[d", vim.diagnostic.get_next, opts)
+    keymap("n", "]d", vim.diagnostic.get_prev, opts)
 
     -- Enable completion triggered by omnifunc
     vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 end
 
 function M.setup()
-    local signs = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
-    }
-
-    for _, sign in ipairs(signs) do
-        vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-    end
-
-    local config = {
-        -- show signs
+    vim.diagnostic.config({
         signs = {
-            active = signs,
+            text = {
+                [vim.diagnostic.severity.ERROR] = "",
+                [vim.diagnostic.severity.WARN] = "",
+                [vim.diagnostic.severity.HINT] = "🛈",
+                [vim.diagnostic.severity.INFO] = "",
+            },
+            linehl = {
+                [vim.diagnostic.severity.ERROR] = "",
+                [vim.diagnostic.severity.WARN] = "",
+                [vim.diagnostic.severity.HINT] = "",
+                [vim.diagnostic.severity.INFO] = "",
+            },
+            numhl = {
+                [vim.diagnostic.severity.ERROR] = "",
+                [vim.diagnostic.severity.WARN] = "",
+                [vim.diagnostic.severity.HINT] = "",
+                [vim.diagnostic.severity.INFO] = "",
+            }
         },
-        update_in_insert = true,
+        virtual_text = true,
+        update_in_insert = false,
         underline = true,
         severity_sort = true,
         float = {
             focusable = true,
             border = "rounded",
-            source = "always",
+            source = true,
             header = "",
             prefix = "",
         },
-    }
+    })
 
-    vim.diagnostic.config(config)
-
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.buf.hover, {
         border = "rounded",
     })
 
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.buf.signature_help, {
         border = "rounded",
     })
 end
@@ -112,12 +116,12 @@ function M.on_attach_default(client, bufnr)
     lsp_format_on_save(client, bufnr)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_ok then
     return M
 end
 
-M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 return M

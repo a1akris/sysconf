@@ -137,6 +137,16 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
+### Autofloating for popups
+for_window [window_role = "pop-up"] floating enable
+for_window [window_role = "bubble"] floating enable
+for_window [window_role = "dialog"] floating enable
+for_window [window_type = "dialog"] floating enable
+for_window [window_role = "task_dialog"] floating enable
+for_window [window_type = "menu"] floating enable
+for_window [app_id = "floating"] floating enable
+for_window [title="Untitled - Shotcut"] floating enable
+
 ### Key bindings
 #
 # Basics:
@@ -353,7 +363,8 @@ mode "hotstuff" {
     bindsym z exec ~/e/sys/sway_hook ~/e/sys/qr_to_cb -- floating enable; mode "default"
     bindsym m exec $mus_menu; mode "default"
     bindsym v exec $vm_menu; mode "default"
-    bindsym r exec $read_menu; mode "default"
+    bindsym b exec $read_menu; mode "default"
+    bindsym r exec ~/e/sys/sway_hook ~/e/sys/screencast -- floating enable; mode default
     bindsym u exec $cfg_menu; mode "default"
 }
 
@@ -372,7 +383,7 @@ bindsym $print_screen       exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')
 bindsym Shift+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | swappy -f -
 
 # Extract text from screen
-bindsym Control+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | tesseract - /tmp/screen && ~/e/sys/sway_hook $term -e nvim /tmp/screen.txt -- floating enable and resize set 1024px 768px\; move absolute position center
+bindsym Control+$print_screen exec grim -g "$(slurp -b '#111111aa' -c '#ffe6a6aa')" - | tesseract -l eng+rus - /tmp/screen && ~/e/sys/sway_hook $term -e nvim /tmp/screen.txt -- floating enable and resize set 1024px 768px\; move absolute position center
 
 # Pick a color
 bindsym $mod+$print_screen exec hyprpicker -qlan

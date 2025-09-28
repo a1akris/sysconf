@@ -44,6 +44,9 @@ local options = {
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- Enable inline highlightning of code blocks in markdown
+vim.g.markdown_fenced_languages = { "rust", "lua", "bash" }
+
 for k, v in pairs(options) do
     vim.opt[k] = v
 end

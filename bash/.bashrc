@@ -23,6 +23,7 @@ _fzf_compgen_dir() {
 _fzf_setup_completion path dir tree
 
 alias ls='ls --color=auto'
+alias lh='ls -ltrh --color=auto'
 
 function vcd() {
     cd ~/v
@@ -36,6 +37,7 @@ PS1='[\u@\h \W]\$ '
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export HISTCONTROL=ignoreboth:erasedups
 export ZK_NOTEBOOK_DIR=~/v/Own/Lib/Notes
+export EDITOR=nvim
 
 starship --version &>/dev/null
 if [ $? -eq 0 ]; then
@@ -44,3 +46,5 @@ fi
 
 # Added by Radicle.
 export PATH="$PATH:/home/sanshi/.radicle/bin"
+
+[ -f "/home/sanshi/.ghcup/env" ] && . "/home/sanshi/.ghcup/env" # ghcup-env

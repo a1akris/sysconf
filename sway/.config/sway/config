@@ -272,22 +272,21 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $right resize grow width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
+    bindsym $left resize shrink right 10px
+    bindsym $right resize grow right 10px
+    bindsym $down resize grow down 10px
+    bindsym $up resize shrink down 10px
 
-    bindsym Shift+$left resize shrink width 200px
-    bindsym Shift+$right resize grow width 200px
-    bindsym Shift+$down resize grow height 150px
-    bindsym Shift+$up resize shrink height 150px
+    bindsym Shift+$left resize shrink right 200px
+    bindsym Shift+$right resize grow right 200px
+    bindsym Shift+$down resize grow down 150px
+    bindsym Shift+$up resize shrink down 150px
 
-    bindsym Ctrl+$left resize shrink width 1px
-    bindsym Ctrl+$right resize grow width 1px
-    bindsym Ctrl+$down resize grow height 1px
-    bindsym Ctrl+$up resize shrink height 1px
+    bindsym Ctrl+$left resize shrink right 5px
+    bindsym Ctrl+$right resize grow right 5px
+    bindsym Ctrl+$down resize grow down 5px
+    bindsym Ctrl+$up resize shrink down 5px
 
-    # Ditto, with arrow keys
     bindsym Left resize shrink width 10px
     bindsym Down resize grow height 10px
     bindsym Up resize shrink height 10px
@@ -298,10 +297,10 @@ mode "resize" {
     bindsym Shift+Down resize grow height 150px
     bindsym Shift+Up resize shrink height 150px
 
-    bindsym Ctrl+Left resize shrink width 1px
-    bindsym Ctrl+Right resize grow width 1px
-    bindsym Ctrl+Down resize grow height 1px
-    bindsym Ctrl+Up resize shrink height 1px
+    bindsym Ctrl+Left resize shrink width 5px
+    bindsym Ctrl+Right resize grow width 5px
+    bindsym Ctrl+Down resize grow height 5px
+    bindsym Ctrl+Up resize shrink height 5px
 
 
     # Return to default mode

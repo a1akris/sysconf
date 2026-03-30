@@ -22,7 +22,10 @@ local ra_settings = {
             enable = true
         },
         cargo = {
-            features = "all"
+            features = "all",
+            buildScripts = {
+                enable = false,
+            },
         },
         checkOnSave = true,
         hover = {
@@ -38,11 +41,27 @@ local ra_settings = {
             }
         },
         inlayHints = {
-            lifetimeElisionHints = {
+            bindingModeHints = {
+                enable = false,
+            },
+            closingBraceHints = {
+                enable = false,
+            },
+            closureCaptureHints = {
                 enable = true,
             },
             expressionAdjustmentHints = {
                 enable = true,
+            },
+            lifetimeElisionHints = {
+                enable = true,
+                useParameterNames = true,
+            },
+            parameterHints = {
+                enable = false,
+            },
+            typeHints = {
+                enable = false,
             }
             -- maxLength = ,
         }

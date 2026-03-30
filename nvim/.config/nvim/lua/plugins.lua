@@ -13,6 +13,23 @@ M.addons["colorscheme"] = {
     configuration = "plug.colorscheme"
 }
 
+M.addons["colorscheme-alt"] = {
+    lazy_plugins = {
+        "bhrown/brown.vim",
+        lazy = false,
+        priority = 999,
+    }
+}
+
+M.addons["colorscheme-alt2"] = {
+    lazy_plugins = {
+        "ericdwhite/overtones.nvim",
+        lazy = false,
+        priority = 999,
+    }
+}
+
+-- Misc
 M.addons["misc"] = {
     lazy_plugins = {
         {

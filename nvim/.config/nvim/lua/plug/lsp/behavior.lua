@@ -4,6 +4,12 @@ local lsp_behavior_group = vim.api.nvim_create_augroup("LspBehavior", {
     clear = true,
 })
 
+local function lsp_inlay_hints(client, bufnr)
+    if client.name == "rust-analyzer" then
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
+end
+
 local function lsp_highlight_document(client, bufnr)
     if client.server_capabilities.document_highlight then
         vim.api.nvim_create_autocmd("CursorHold", {
@@ -59,8 +65,8 @@ local function lsp_keymaps(client, bufnr)
     keymap("n", "gr", vim.lsp.buf.rename, opts)
     keymap("n", "g<Tab>", vim.lsp.buf.code_action, opts)
 
-    keymap("n", "[d", vim.diagnostic.get_next, opts)
-    keymap("n", "]d", vim.diagnostic.get_prev, opts)
+    keymap("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, opts)
+    keymap("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, opts)
 
     -- Enable completion triggered by omnifunc
     vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
@@ -90,27 +96,20 @@ function M.setup()
         },
         virtual_text = true,
         update_in_insert = false,
-        underline = true,
+        underline = false,
         severity_sort = true,
         float = {
             focusable = true,
-            border = "rounded",
+            border = "shadow",
             source = true,
             header = "",
             prefix = "",
         },
     })
-
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.buf.hover, {
-        border = "rounded",
-    })
-
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.buf.signature_help, {
-        border = "rounded",
-    })
 end
 
 function M.on_attach_default(client, bufnr)
+    lsp_inlay_hints(client, bufnr)
     lsp_keymaps(client, bufnr)
     lsp_highlight_document(client, bufnr)
     lsp_format_on_save(client, bufnr)

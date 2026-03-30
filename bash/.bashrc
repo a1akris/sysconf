@@ -44,7 +44,7 @@ if [ $? -eq 0 ]; then
     eval -- "$(/usr/bin/starship init bash --print-full-init)"
 fi
 
-# Added by Radicle.
-export PATH="$PATH:/home/sanshi/.radicle/bin"
+export PATH="$PATH:$HOME/e/bin"
+export PATH="$PATH:$HOME/.radicle/bin"
 
-[ -f "/home/sanshi/.ghcup/env" ] && . "/home/sanshi/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env

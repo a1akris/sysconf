@@ -5,9 +5,7 @@ local lsp_behavior_group = vim.api.nvim_create_augroup("LspBehavior", {
 })
 
 local function lsp_inlay_hints(client, bufnr)
-    if client.name == "rust-analyzer" then
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 end
 
 local function lsp_highlight_document(client, bufnr)
@@ -109,7 +107,7 @@ function M.setup()
 end
 
 function M.on_attach_default(client, bufnr)
-    lsp_inlay_hints(client, bufnr)
+    -- lsp_inlay_hints(client, bufnr)
     lsp_keymaps(client, bufnr)
     lsp_highlight_document(client, bufnr)
     lsp_format_on_save(client, bufnr)

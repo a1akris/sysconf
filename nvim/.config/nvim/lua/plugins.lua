@@ -138,6 +138,7 @@ M.addons["treesitter"] = {
         {
             "nvim-treesitter/nvim-treesitter",
             build = ':TSUpdate',
+            branch = "main",
         },
     }
 }
